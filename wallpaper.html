@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Abstract Background</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* Moving abstract background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, #1e3c72, #2a5298, #1e3c72, #141e30);
+            background-size: 400% 400%;
+            animation: moveBackground 10s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        /* Container for the content */
+        .container {
+            text-align: center;
+            animation: fade 6s infinite;
+        }
+
+        /* Fading text animation */
+        @keyframes fade {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .name {
+            font-size: 6rem;
+            font-weight: bold;
+            letter-spacing: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .datetime {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="name">ADRIAN</div>
+        <div class="datetime" id="datetime"></div>
+    </div>
+
+    <script>
+        // Function to update date and time
+        function updateDateTime() {
+            const options = { 
+                timeZone: 'Asia/Manila', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: 'numeric', 
+                second: 'numeric' 
+            };
+            const now = new Intl.DateTimeFormat('en-US', options).format(new Date());
+            document.getElementById('datetime').textContent = now;
+        }
+
+        // Update every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call
+    </script>
+</body>
+</html>
